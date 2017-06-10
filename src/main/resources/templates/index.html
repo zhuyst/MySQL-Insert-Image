@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>数据库插入图片Demo</title>
+    <style type="text/css">
+        body{
+            text-align: center;
+            margin: 0 auto;
+        }
+        table{
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>数据库插入图片Demo</h1>
+    <h3>请上传小于5MB的图片</h3>
+    <form action="/upload" name="imageForm" method="post" enctype="multipart/form-data">
+        <input type="file" name="image"/>
+        <input type="submit" />
+    </form>
+
+    <h3 th:text="${msg}"></h3>
+    <img th:if="${id}" th:src="'showImage?id=' + ${id}"/>
+
+    <table border="1" cellspacing="5" cellpadding="5" align="center">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>View</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="image:${list}">
+                <td th:text="${image.id}"></td>
+                <td th:text="${image.name}"></td>
+                <td><a th:href="'showImage?id=' + ${image.id}">查看</a></td>
+                <td><a th:href="'delete?id=' + ${image.id}">删除</a></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
