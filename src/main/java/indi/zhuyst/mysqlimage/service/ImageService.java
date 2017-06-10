@@ -62,9 +62,18 @@ public class ImageService {
      * @param id 图片的id
      */
     public void showImage(HttpServletResponse response,Integer id){
-        response.setContentType("image/png");
-
         Image image = this.getImage(id);
+        String name = image.getName();
+        if(name.contains(".jpg")){
+            response.setContentType("image/jpeg");
+        }
+        else if(name.contains(".gif")){
+            response.setContentType("image/gif");
+        }
+        else {
+            response.setContentType("image/png");
+        }
+
         try {
             OutputStream outputStream = response.getOutputStream();
             InputStream inputStream = image.getImage().getBinaryStream();

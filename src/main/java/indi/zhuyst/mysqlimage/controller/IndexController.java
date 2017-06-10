@@ -46,18 +46,29 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/upload",method = RequestMethod.POST)
-    public String upload(HttpSession session,@RequestParam("image")MultipartFile[] image){
-        HashMap<String,byte[]> map = FileUploadUtil.upload(image);
+    public String upload(HttpSession session,@RequestParam("image")MultipartFile[] images){
+        String msg = "上传成功";
+        Boolean flag = true;
 
-        String msg;
-        if(map == null){
-            msg = "上传图片过大";
+        for(MultipartFile image : images){
+            if(image.getSize() > 5120000){
+                msg = "上传文件过大";
+                flag = false;
+                break;
+            }
+            String name = image.getOriginalFilename();
+            if(!(name.contains(".jpg") || name.contains(".gif") || name.contains(".png"))){
+                msg = "上传的文件不是图片";
+                flag = false;
+                break;
+            }
         }
-
-        if(imageService.insertImage(map)){
-            msg = "上传成功";
+        if(flag){
+            HashMap<String,byte[]> map = FileUploadUtil.upload(images);
+            if(!imageService.insertImage(map)){
+                msg = "上传失败";
+            }
         }
-        else msg = "上传失败";
 
         session.setAttribute("msg",msg);
         return "redirect:/";
