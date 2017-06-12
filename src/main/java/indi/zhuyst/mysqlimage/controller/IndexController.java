@@ -47,7 +47,7 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/upload",method = RequestMethod.POST)
-    public String upload(HttpServletRequest request,HttpSession session, @RequestParam("image")MultipartFile[] images){
+    public String upload(HttpSession session, @RequestParam("image")MultipartFile[] images){
         String msg = "上传成功";
         Boolean flag = true;
 
