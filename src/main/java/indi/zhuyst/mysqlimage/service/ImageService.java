@@ -63,7 +63,7 @@ public class ImageService {
      */
     public void showImage(HttpServletResponse response,Integer id){
         Image image = this.getImage(id);
-        String name = image.getName();
+        String name = image.getName().toLowerCase();
         if(name.contains(".jpg")){
             response.setContentType("image/jpeg");
         }

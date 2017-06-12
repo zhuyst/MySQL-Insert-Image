@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -46,7 +47,7 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/upload",method = RequestMethod.POST)
-    public String upload(HttpSession session,@RequestParam("image")MultipartFile[] images){
+    public String upload(HttpServletRequest request,HttpSession session, @RequestParam("image")MultipartFile[] images){
         String msg = "上传成功";
         Boolean flag = true;
 
@@ -56,7 +57,7 @@ public class IndexController {
                 flag = false;
                 break;
             }
-            String name = image.getOriginalFilename();
+            String name = image.getOriginalFilename().toLowerCase();
             if(!(name.contains(".jpg") || name.contains(".gif") || name.contains(".png"))){
                 msg = "上传的文件不是图片";
                 flag = false;
